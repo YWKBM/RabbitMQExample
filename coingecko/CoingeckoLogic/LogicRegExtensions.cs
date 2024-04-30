@@ -1,6 +1,7 @@
 using CoingeckoHttpClient;
 using CoingeckoLogic.RabbitMQ;
 using Coravel;
+using StackExchange.Redis;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CoingeckoLogic;
@@ -19,7 +20,11 @@ public static class LogicRegExtensions
 
         services.AddScheduler();
         services.AddScoped<Jobs.GetCoinsDataJob>();
-        
+
+        services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:6479"));
+
+
+
         return services;
     }
 
