@@ -29,7 +29,7 @@ public class CoingeckoService
         {
             var jsonCoin = JsonConvert.SerializeObject(coin);
 
-            await redis.ListLeftPushAsync("coin_stack", jsonCoin);
+            await redis.ListRightPushAsync("coin_stack", jsonCoin);
         }
 
     }
