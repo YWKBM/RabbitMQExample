@@ -43,13 +43,14 @@ public class CoingeckoService
 
         if (poppedCoin.HasValue)
         {
+
+#pragma warning disable CS8604
             var coin = JsonConvert.DeserializeObject<CoingeckoHttpClient.DTO.GetCoinsListResponseData>(poppedCoin);
 
             if (coin is null) 
             {
                 return;
             }
-
             var coinPrice = await httpClient.GetCoinPrice(coin.Id, "rub");
 
             var message = new Messages.CoinMessage
