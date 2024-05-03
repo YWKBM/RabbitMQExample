@@ -20,10 +20,9 @@ public static class LogicRegExtensions
 
         services.AddScheduler();
         services.AddScoped<Jobs.GetCoinsDataJob>();
+        services.AddScoped<Jobs.ProcessCoinsData>();
 
-        services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:6479"));
-
-
+        services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("127.0.0.1:6379,abortConnect=false"));
 
         return services;
     }
@@ -35,10 +34,12 @@ public static class LogicRegExtensions
             s.Schedule<Jobs.GetCoinsDataJob>()
                 .EveryMinute()
                 .PreventOverlapping("CoinsDataLoad");
+            s.Schedule<Jobs.ProcessCoinsData>()
+                .EveryFiveSeconds()
+                .PreventOverlapping("CoinsProcessing");
         }).OnError(e =>
         {
-            log.Error(e);
-            log.Debug(e.StackTrace);
+            Console.WriteLine(e.ToString());
         });
 
         return serviceProvider;

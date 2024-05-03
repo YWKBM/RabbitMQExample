@@ -1,10 +1,4 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using CoingeckoLogic.RabbitMQ;
-using Microsoft.AspNetCore.CookiePolicy;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Caching;
-using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
@@ -66,7 +60,7 @@ public class CoingeckoService
             };
 
             rabbitMqService.SendMessage(message);
+            Console.WriteLine($"Sent to queue coinId: {message.CoinId}");
         }
-        
     }
 }

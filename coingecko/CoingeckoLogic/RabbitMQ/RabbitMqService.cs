@@ -16,7 +16,7 @@ public class RabbitMqService : IRabbitMqService
     {
         var factory = new ConnectionFactory()
         {
-            HostName = "localhost"
+            HostName = "localhost",
         };
 
         using (var connection = factory.CreateConnection())
