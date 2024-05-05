@@ -1,4 +1,5 @@
 using CoingeckoDb;
+using CoingeckoLogic.Configs;
 using CoingeckoLogic.Consumer;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,7 +9,7 @@ public static class LogicRegExtensions
 {
     public static IServiceCollection AddLogic(this IServiceCollection services) 
     {
-        services.AddDb();
+        services.AddDb(Configs.Config.Postgres.DATABASE);
         services.AddHostedService<QueueListener>();
         return services;
     }

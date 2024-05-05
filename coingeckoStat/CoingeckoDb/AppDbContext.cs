@@ -4,13 +4,17 @@ namespace CoingeckoDb;
 
 public class AppDbContext : DbContext
 {
-    public AppDbContext() { }
+    private readonly DBConfig config;
+    public AppDbContext(DBConfig config)
+    {
+        this.config = config;
+    }
 
     public DbSet<Entities.Coin> Coin { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=coingecko;Username=postgres;Password=0591", x =>
+        optionsBuilder.UseNpgsql(config.ConnectionString, x =>
         {
             x.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
         });

@@ -18,15 +18,18 @@ public class QueueListener : BackgroundService
 {
     private readonly IConnection connection;
 
+    private readonly Uri rabbitUri;
+
     private readonly IModel chanel;
 
     private readonly IServiceProvider serviceProvider;
 
-    public QueueListener(IServiceProvider serviceProvider) 
+    public QueueListener(IServiceProvider serviceProvider, Uri rabbitUri) 
     {
         this.serviceProvider = serviceProvider;
+        this.rabbitUri = rabbitUri; 
 
-        var factory = new ConnectionFactory() { HostName = "localhost" };
+        var factory = new ConnectionFactory() { Uri = rabbitUri };
 
         connection = factory.CreateConnection();
         chanel = connection.CreateModel();
