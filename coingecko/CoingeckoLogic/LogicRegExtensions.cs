@@ -3,6 +3,7 @@ using CoingeckoLogic.RabbitMQ;
 using Coravel;
 using StackExchange.Redis;
 using Microsoft.Extensions.DependencyInjection;
+using CoingeckoLogic.Configs;
 
 namespace CoingeckoLogic;
 
@@ -22,7 +23,7 @@ public static class LogicRegExtensions
         services.AddScoped<Jobs.GetCoinsDataJob>();
         services.AddScoped<Jobs.ProcessCoinsData>();
 
-        services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("127.0.0.1:6379,abortConnect=false"));
+        services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(Config.Redis.REDIS_CONNECTION_STRING));
 
         return services;
     }

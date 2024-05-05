@@ -6,7 +6,7 @@ public class RedisConfig : BaseConfig
 
     public string REDIS_HOST { get; set; } = "localhost";
 
-    public string Redis => $"{REDIS_HOST}:{REDIS_PORT},abortConnect=false";
+    public string REDIS_CONNECTION_STRING => $"{REDIS_HOST}:{REDIS_PORT},abortConnect=false";
 
     public RedisConfig() 
     {

@@ -6,6 +6,8 @@ namespace CoingeckoLogic.RabbitMQ;
 
 public class RabbitMqService : IRabbitMqService
 {
+    private readonly Uri rabbimqUri = Configs.Config.RabbitMQ.RABBITMQ;
+
     public void SendMessage(object obj)
     {
         var message = JsonSerializer.Serialize(obj);
@@ -16,7 +18,7 @@ public class RabbitMqService : IRabbitMqService
     {
         var factory = new ConnectionFactory()
         {
-            Uri = new Uri("");
+            Uri = rabbimqUri
         };
 
         using (var connection = factory.CreateConnection())
