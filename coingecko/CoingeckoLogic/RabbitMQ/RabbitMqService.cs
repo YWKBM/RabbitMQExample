@@ -18,7 +18,10 @@ public class RabbitMqService : IRabbitMqService
     {
         var factory = new ConnectionFactory()
         {
-            Uri = rabbimqUri
+            HostName = Configs.Config.RabbitMQ.RABBITMQ_HOST,
+            UserName = Configs.Config.RabbitMQ.RABBITMQ_USER,
+            Password = Configs.Config.RabbitMQ.RABBITMQ_PASS,
+            Port = AmqpTcpEndpoint.UseDefaultPort
         };
 
         using (var connection = factory.CreateConnection())
