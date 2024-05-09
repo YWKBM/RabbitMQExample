@@ -4,9 +4,9 @@ namespace CoingeckoDb;
 
 public static class DbRegExtensions
 {
-    public static IServiceCollection AddDb(this IServiceCollection services, string ConnectionString)
+    public static IServiceCollection AddDb(this IServiceCollection services, string connectionString)
     {
-        services.AddSingleton<DBConfig>();
+        services.AddSingleton<DBConfig>(x => new DBConfig(connectionString));
         
         EntityFrameworkServiceCollectionExtensions.AddDbContext<AppDbContext>(services);
         return services;

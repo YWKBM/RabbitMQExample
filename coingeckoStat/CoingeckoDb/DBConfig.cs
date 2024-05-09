@@ -8,4 +8,9 @@ namespace CoingeckoDb;
 public class DBConfig
 {
     public string ConnectionString { get; set; } = string.Empty;
+
+    public DBConfig(string ConnectString) 
+    {
+        this.ConnectionString = ConnectString;
+    }
 }

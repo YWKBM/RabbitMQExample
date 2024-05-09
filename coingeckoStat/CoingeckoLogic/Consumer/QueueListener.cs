@@ -18,18 +18,21 @@ public class QueueListener : BackgroundService
 {
     private readonly IConnection connection;
 
-    private readonly Uri rabbitUri;
-
     private readonly IModel chanel;
 
     private readonly IServiceProvider serviceProvider;
 
-    public QueueListener(IServiceProvider serviceProvider, Uri rabbitUri) 
+    public QueueListener(IServiceProvider serviceProvider) 
     {
         this.serviceProvider = serviceProvider;
-        this.rabbitUri = rabbitUri; 
 
-        var factory = new ConnectionFactory() { Uri = rabbitUri };
+        var factory = new ConnectionFactory() 
+        {
+            HostName = Configs.Config.RabbitMQ.RABBITMQ_HOST,
+            UserName = Configs.Config.RabbitMQ.RABBITMQ_USER,
+            Password = Configs.Config.RabbitMQ.RABBITMQ_PASS,
+            Port = AmqpTcpEndpoint.UseDefaultPort
+        };
 
         connection = factory.CreateConnection();
         chanel = connection.CreateModel();
