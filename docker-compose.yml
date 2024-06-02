@@ -1,0 +1,65 @@
+version: "3.9"
+networks:
+  CGApp:
+    driver: bridge
+services:
+  stat:
+    container_name: CoingeckoStat
+    image: ywkbm/coingeckostat:1.1
+    environment:
+      DATABASE_HOST: CoingeckoDb:5432
+      DATABASE_USER: postgres
+      DATABASE_PASS: 123456
+      DATABASE_NAME: coingecko
+      RABBITMQ_HOST: CoingeckoRabbit
+    networks:
+      - CGApp
+    depends_on:
+      - postgres
+      - rabbitMQ
+
+
+  app:
+    container_name: CoingeckoApp
+    image: ywkbm/coingecko:1.1
+    environment:
+      RABBITMQ_HOST: CoingeckoRabbit
+      REDIS_HOST: CoingeckoRedis
+      REDIS_PORT: 6379
+    ports:
+      - "5127:80"
+    networks:
+      - CGApp
+    depends_on:
+      - rabbitMQ
+
+  postgres:
+    container_name: CoingeckoDb
+    image: postgres:latest
+    hostname: CoingeckoDB
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: coingecko
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    networks:
+      - CGApp
+
+  rabbitMQ:
+    container_name: CoingeckoRabbit
+    image: rabbitmq:3.10.7-management
+    hostname: CoingeckoRabbit
+    ports:
+      - "15672:15672"
+    networks:
+      - CGApp
+
+  redis:
+    container_name: CoingeckoRedis
+    image: redis:latest
+    hostname: CoingeckoRedis
+    ports:
+      - "6379:6579"
+    networks:
+      - CGApp
